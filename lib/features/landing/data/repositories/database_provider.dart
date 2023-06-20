@@ -16,9 +16,9 @@ class DataBaseProvider {
     var userId = ref.read(firebaseAuthInstance).currentUser?.uid;
     List<Account> accounts = [];
     db
-        .collection(Collcetion.accounts.name)
+        .collection(Collection.accounts.name)
         .doc(userId)
-        .collection(Collcetion.user_accounts.name)
+        .collection(Collection.user_accounts.name)
         .get()
         .then((QuerySnapshot collection) {
       for (var doc in collection.docs) {

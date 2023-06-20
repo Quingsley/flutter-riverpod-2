@@ -37,7 +37,7 @@ class DepositScreen extends ConsumerWidget {
               child: AccountActionSelection(
                 actionTypeLabel: 'To',
                 amountChanger: AccountSlider(
-                  sliderLabel: 'Deposit To',
+                  sliderLabel: 'Amount to Deposit',
                   sliderInitialValue: ref
                       .read(depositRepositoryProvider.notifier)
                       .amountToDeposit,

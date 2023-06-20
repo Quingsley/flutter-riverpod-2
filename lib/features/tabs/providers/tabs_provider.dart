@@ -1,5 +1,5 @@
 import 'package:bank_app/features/deposit/presentation/pages/deposit_screen.dart';
-import 'package:bank_app/features/expenses/presentation/expenses_screen.dart';
+import 'package:bank_app/features/expenses/presentation/pages/expenses_screen.dart';
 import 'package:bank_app/features/landing/presentation/pages/landing_page.dart';
 import 'package:bank_app/features/withdraw/presentation/pages/with_draw_screen.dart';
 import 'package:flutter/material.dart';

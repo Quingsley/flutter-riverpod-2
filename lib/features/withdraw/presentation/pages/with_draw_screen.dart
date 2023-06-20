@@ -43,7 +43,7 @@ class WithdrawScreen extends ConsumerWidget {
               child: AccountActionSelection(
                 actionTypeLabel: 'From',
                 amountChanger: AccountSlider(
-                  sliderLabel: 'Withdraw From',
+                  sliderLabel: 'Amount to Withdraw',
                   sliderInitialValue: actualAmount,
                   sliderMaxValue:
                       selectedAccount != null ? selectedAccount.balance! : 0.0,

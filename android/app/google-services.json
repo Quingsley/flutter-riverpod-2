@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "990820656641",
+    "project_id": "flutterbankapp-368d1",
+    "storage_bucket": "flutterbankapp-368d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:990820656641:android:efb977b82b4a49b1e5c200",
+        "android_client_info": {
+          "package_name": "com.kberen.bank_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8le2HiDbvlOA5jefbioopaNb_ROoJOEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

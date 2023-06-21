@@ -1,5 +1,5 @@
 import 'package:bank_app/features/deposit/presentation/providers/deposit_provider.dart';
-import 'package:bank_app/features/landing/presentation/pages/landing_page.dart';
+import 'package:bank_app/features/accounts/presentation/pages/accounts_page.dart';
 import 'package:bank_app/features/transaction/presentation/widgets/transaction_complete_widget.dart';
 import 'package:bank_app/features/withdraw/presentation/providers/withdraw_provider.dart';
 import 'package:bank_app/routes/app_routes.dart';
@@ -31,7 +31,7 @@ class TransactionCompletePage extends ConsumerWidget {
                 depositVM.resetDepositAmount();
                 bankService.resetAccountSelection();
                 GoRouter.of(AppRoutes.mainNav.currentContext!)
-                    .go(LandingPage.route);
+                    .go(AccountsPage.route);
               });
             }
           })
@@ -41,7 +41,7 @@ class TransactionCompletePage extends ConsumerWidget {
                 withdrawVM.resetWithDrawAmount();
                 bankService.resetAccountSelection();
                 GoRouter.of(AppRoutes.mainNav.currentContext!)
-                    .go(LandingPage.route);
+                    .go(AccountsPage.route);
               });
             }
           });
@@ -54,8 +54,6 @@ class TransactionCompletePage extends ConsumerWidget {
                   return const TransactionComplete();
                 },
                 error: (error, stackTrace) {
-                  print(error);
-                  print(stackTrace);
                   return FlutterBankError(errorMsg: error.toString());
                 },
                 loading: () => const LoadingSpinner())
@@ -64,9 +62,6 @@ class TransactionCompletePage extends ConsumerWidget {
                   return const TransactionComplete();
                 },
                 error: (error, stackTrace) {
-                  print(error);
-                  print(stackTrace);
-
                   return FlutterBankError(errorMsg: error.toString());
                 },
                 loading: () => const LoadingSpinner()),

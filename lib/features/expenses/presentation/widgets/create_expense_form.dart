@@ -40,6 +40,25 @@ class _ExpenseFormContainerState extends ConsumerState<ExpenseFormContainer> {
     }
   }
 
+  void _showSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style:
+              TextStyle(color: Theme.of(context).colorScheme.onErrorContainer),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.errorContainer,
+      ),
+    );
+  }
+
+  bool validateEntires() {
+    return name.value.text.isNotEmpty &&
+        amount.value.text.isNotEmpty &&
+        datePickerValue.value.text.isNotEmpty;
+  }
+
   @override
   Widget build(BuildContext context) {
     var expenseVM = ref.watch(expenseVMProvider);
@@ -86,16 +105,30 @@ class _ExpenseFormContainerState extends ConsumerState<ExpenseFormContainer> {
           ),
           FlutterBankMainButton(
             label: 'Submit',
-            onTap: () {
-              expenseVM.addExpense(Expense(
-                  name: name.value.text,
-                  amount: int.tryParse(amount.value.text)!.toDouble(),
-                  timeStamp: datePickerValue.value.text));
-
-              name.clear();
-              amount.clear();
-              datePickerValue.clear();
-              Navigator.of(context).pop();
+            // enabled: validateEntires(),
+            onTap: () async {
+              if (validateEntires()) {
+                bool isExpenseAdded = await expenseVM.addExpense(Expense(
+                    name: name.value.text,
+                    amount: double.tryParse(amount.value.text)!,
+                    timeStamp: datePickerValue.value.text));
+                if (isExpenseAdded) {
+                  name.clear();
+                  amount.clear();
+                  datePickerValue.clear();
+                  if (context.mounted) {
+                    Navigator.of(context).pop();
+                  }
+                } else {
+                  if (context.mounted) {
+                    _showSnackBar(context, 'Unable to add Expense');
+                  }
+                }
+              } else {
+                if (context.mounted) {
+                  _showSnackBar(context, 'Fill in the Required fields');
+                }
+              }
             },
           )
         ],

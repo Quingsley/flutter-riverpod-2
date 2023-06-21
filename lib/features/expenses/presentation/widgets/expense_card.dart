@@ -1,16 +1,15 @@
 import 'package:bank_app/features/expenses/data/models/expense_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class ExpenseCard extends ConsumerWidget {
+class ExpenseCard extends StatelessWidget {
   const ExpenseCard(
       {required this.expense, required this.onDeleteExpense, super.key});
   final Expense expense;
   final Function() onDeleteExpense;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
       margin: const EdgeInsets.all(20),

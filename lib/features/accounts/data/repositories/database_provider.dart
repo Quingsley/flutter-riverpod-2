@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:bank_app/features/landing/data/models/account_model.dart';
+import 'package:bank_app/features/accounts/data/models/account_model.dart';
 import 'package:bank_app/helpers/utils.dart';
 import 'package:bank_app/shared/providers/shared_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,16 +8,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DataBaseProvider {
   final Ref ref;
-  DataBaseProvider(this.ref);
+  late final String? _userId;
+  late final FirebaseFirestore _db;
+  DataBaseProvider(this.ref) {
+    _userId = ref.read(firebaseAuthInstance).currentUser?.uid;
+    _db = ref.read(firebaseDbProvider);
+  }
 
   Future<List<Account>> getDataFromDB() {
     Completer<List<Account>> dataCompleter = Completer();
-    var db = ref.read(firebaseDbProvider);
-    var userId = ref.read(firebaseAuthInstance).currentUser?.uid;
     List<Account> accounts = [];
-    db
+    _db
         .collection(Collection.accounts.name)
-        .doc(userId)
+        .doc(_userId)
         .collection(Collection.user_accounts.name)
         .get()
         .then((QuerySnapshot collection) {

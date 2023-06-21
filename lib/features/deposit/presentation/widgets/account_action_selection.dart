@@ -1,5 +1,5 @@
 import 'package:bank_app/features/deposit/presentation/widgets/account_action_card.dart';
-import 'package:bank_app/features/landing/presentation/providers/account_provider.dart';
+import 'package:bank_app/features/accounts/presentation/providers/account_provider.dart';
 import 'package:bank_app/shared/providers/shared_provider.dart';
 import 'package:bank_app/shared/widgets/error_widget.dart';
 import 'package:bank_app/shared/widgets/loading_spinner.dart';

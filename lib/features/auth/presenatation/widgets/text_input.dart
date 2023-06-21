@@ -35,7 +35,9 @@ class TextInputField extends StatelessWidget {
           obscureText: obscureText!,
           keyboardType: hintText == 'Email'
               ? TextInputType.emailAddress
-              : TextInputType.text,
+              : hintText == 'Amount' || hintText == 'Account Number'
+                  ? TextInputType.number
+                  : TextInputType.text,
           obscuringCharacter: '*',
           style: const TextStyle(fontSize: 16),
           decoration: InputDecoration(

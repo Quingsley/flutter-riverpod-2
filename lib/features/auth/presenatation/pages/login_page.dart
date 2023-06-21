@@ -2,7 +2,7 @@ import 'package:bank_app/features/auth/presenatation/pages/account_registration.
 import 'package:bank_app/features/auth/presenatation/pages/forget_password_page.dart';
 import 'package:bank_app/features/auth/presenatation/widgets/error_container.dart';
 import 'package:bank_app/features/auth/presenatation/widgets/text_input.dart';
-import 'package:bank_app/features/landing/presentation/pages/landing_page.dart';
+import 'package:bank_app/features/accounts/presentation/pages/accounts_page.dart';
 import 'package:bank_app/features/auth/presenatation/providers/auth_provider.dart';
 import 'package:bank_app/features/auth/presenatation/widgets/flutter_bank_main_button.dart';
 import 'package:bank_app/helpers/utils.dart';
@@ -46,7 +46,7 @@ class _FlutterBankLoginState extends ConsumerState<FlutterBankLogin> {
       usernameController.clear();
       passwordController.clear();
       ref.read(isLoadingStateProvider.notifier).state = false;
-      GoRouter.of(AppRoutes.mainNav.currentContext!).go(LandingPage.route);
+      GoRouter.of(AppRoutes.mainNav.currentContext!).go(AccountsPage.route);
     }
   }
 

@@ -14,4 +14,4 @@ final firebaseDbProvider =
     Provider<FirebaseFirestore>((ref) => FirebaseFirestore.instance);
 
 final bankServiceProvider =
-    ChangeNotifierProvider<DepositService>((ref) => DepositService(ref));
+    ChangeNotifierProvider<BankService>((ref) => BankService(ref));

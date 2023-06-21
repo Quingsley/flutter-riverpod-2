@@ -1,15 +1,15 @@
 import 'package:bank_app/features/auth/presenatation/widgets/error_container.dart';
-import 'package:bank_app/features/landing/data/models/account_model.dart';
-import 'package:bank_app/features/landing/presentation/widgets/account_card.dart';
-import 'package:bank_app/features/landing/presentation/providers/account_provider.dart';
+import 'package:bank_app/features/accounts/data/models/account_model.dart';
+import 'package:bank_app/features/accounts/presentation/widgets/account_card.dart';
+import 'package:bank_app/features/accounts/presentation/providers/account_provider.dart';
 import 'package:bank_app/shared/widgets/custom_app_bar.dart';
 import 'package:bank_app/shared/widgets/loading_spinner.dart';
 import 'package:bank_app/shared/widgets/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LandingPage extends ConsumerWidget {
-  const LandingPage({super.key});
+class AccountsPage extends ConsumerWidget {
+  const AccountsPage({super.key});
 
   static const String route = '/home';
   @override

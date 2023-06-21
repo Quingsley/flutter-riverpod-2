@@ -1,5 +1,5 @@
-import 'package:bank_app/features/landing/data/models/account_model.dart';
-import 'package:bank_app/features/landing/data/repositories/iaccount_repository.dart';
+import 'package:bank_app/features/accounts/data/models/account_model.dart';
+import 'package:bank_app/features/accounts/data/repositories/iaccount_repository.dart';
 
 class AccountViewModel {
   final IAccountRepository accountRepository;

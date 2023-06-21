@@ -12,11 +12,11 @@ class ExpenseViewModel {
     return expenseStream;
   }
 
-  void addExpense(Expense expense) {
-    ref.read(bankServiceProvider).addExpense(expense);
+  Future<bool> addExpense(Expense expense) {
+    return ref.read(bankServiceProvider).addExpense(expense);
   }
 
-  void deleteExpense(String expenseId) {
-    ref.read(bankServiceProvider).deleteExpense(expenseId);
+  Future<bool> deleteExpense(String expenseId) {
+    return ref.read(bankServiceProvider).deleteExpense(expenseId);
   }
 }

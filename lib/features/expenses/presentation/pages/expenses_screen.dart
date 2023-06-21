@@ -26,6 +26,7 @@ class ExpensesScreen extends ConsumerWidget {
         child: FlutterBankDrawer(),
       ),
       body: Container(
+        padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

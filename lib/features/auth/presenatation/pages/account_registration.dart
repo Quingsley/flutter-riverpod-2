@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:bank_app/routes/app_routes.dart';
-import 'package:bank_app/features/landing/presentation/pages/landing_page.dart';
+import 'package:bank_app/features/accounts/presentation/pages/accounts_page.dart';
 import 'package:bank_app/helpers/utils.dart';
 
 final isLoadingStateProvider = StateProvider<bool>((ref) => false);
@@ -69,7 +69,7 @@ class _FlutterAccountRegistrationState
         usernameController.clear();
         passwordController.clear();
         ref.read(isLoadingStateProvider.notifier).state = false;
-        GoRouter.of(AppRoutes.mainNav.currentContext!).go(LandingPage.route);
+        GoRouter.of(AppRoutes.mainNav.currentContext!).go(AccountsPage.route);
       }
     }
 

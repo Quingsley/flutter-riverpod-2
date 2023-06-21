@@ -3,7 +3,7 @@ import 'package:bank_app/features/auth/presenatation/pages/forget_password_page.
 import 'package:bank_app/features/deposit/presentation/pages/deposit_screen.dart';
 import 'package:bank_app/features/error/presentation/pages/error_page.dart';
 import 'package:bank_app/features/expenses/presentation/pages/expenses_screen.dart';
-import 'package:bank_app/features/landing/presentation/pages/landing_page.dart';
+import 'package:bank_app/features/accounts/presentation/pages/accounts_page.dart';
 import 'package:bank_app/features/auth/presenatation/pages/login_page.dart';
 import 'package:bank_app/features/tabs/presentation/pages/home.dart';
 import 'package:bank_app/features/transaction/presentation/pages/transaction_complete_page.dart';
@@ -54,8 +54,8 @@ class AppRoutes {
           routes: [
             GoRoute(
               parentNavigatorKey: AppRoutes.tabNav,
-              path: LandingPage.route,
-              builder: (context, state) => const LandingPage(),
+              path: AccountsPage.route,
+              builder: (context, state) => const AccountsPage(),
             ),
             GoRoute(
               parentNavigatorKey: AppRoutes.tabNav,

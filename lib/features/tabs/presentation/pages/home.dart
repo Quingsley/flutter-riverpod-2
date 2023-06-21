@@ -1,3 +1,4 @@
+import 'package:bank_app/features/tabs/presentation/widgets/create_account_modal.dart';
 import 'package:bank_app/shared/widgets/navigation_bar_item.dart';
 import 'package:bank_app/features/tabs/providers/tabs_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class Home extends ConsumerWidget {
       SystemUiOverlayStyle(
         statusBarColor: Theme.of(context)
             .colorScheme
-            .primary, // Change this to the desired color
+            .inversePrimary, // Change this to the desired color
       ),
     );
     var screens = ref.watch(screensProvider);
@@ -31,7 +32,20 @@ class Home extends ConsumerWidget {
           child: currentScreen,
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Dialog(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    alignment: Alignment.center,
+                    elevation: 10,
+                    clipBehavior: Clip.antiAlias,
+                    child: const CreateBankAccountContainer(),
+                  );
+                });
+          },
           backgroundColor: Theme.of(context).colorScheme.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),

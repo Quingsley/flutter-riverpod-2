@@ -1,4 +1,4 @@
-import 'package:bank_app/features/landing/data/models/account_model.dart';
+import 'package:bank_app/features/accounts/data/models/account_model.dart';
 import 'package:bank_app/shared/providers/shared_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

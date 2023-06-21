@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bank_app/features/deposit/presentation/providers/deposit_provider.dart';
 import 'package:bank_app/features/expenses/data/models/expense_model.dart';
-import 'package:bank_app/features/landing/data/models/account_model.dart';
+import 'package:bank_app/features/accounts/data/models/account_model.dart';
 import 'package:bank_app/features/withdraw/presentation/providers/withdraw_provider.dart';
 import 'package:bank_app/helpers/utils.dart';
 import 'package:bank_app/shared/providers/shared_provider.dart';
@@ -10,12 +10,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DepositService extends ChangeNotifier {
+class BankService extends ChangeNotifier {
   Account? _selectedAccount;
   List<Expense> expenses = [];
   final Ref ref;
+  late final FirebaseFirestore _db;
+  late final String? _userId;
 
-  DepositService(this.ref);
+  BankService(this.ref) {
+    _userId = ref.watch(firebaseAuthInstance).currentUser!.uid;
+    _db = ref.watch(firebaseDbProvider);
+  }
 
   set setAccount(Account? acct) {
     _selectedAccount = acct;
@@ -29,15 +34,32 @@ class DepositService extends ChangeNotifier {
 
   Account? get accountSelected => _selectedAccount;
 
+  Future<bool> createAccount(Account data) {
+    Completer<bool> newAccountCompleter = Completer();
+    CollectionReference userAccounts = _db
+        .collection(Collection.accounts.name)
+        .doc(_userId)
+        .collection(Collection.user_accounts.name);
+    userAccounts.add({
+      'account_number': data.accountNumber,
+      'balance': 0.0,
+      'type': data.type
+    }).then((value) {
+      newAccountCompleter.complete(true);
+    }).catchError((error, stackTrace) {
+      newAccountCompleter.completeError(error.toString());
+    });
+
+    return newAccountCompleter.future;
+  }
+
   Future<bool> performDeposit() {
     Completer<bool> depositCompleter = Completer();
-    var userId = ref.watch(firebaseAuthInstance).currentUser!.uid;
     var amountToDeposit = ref.read(depositRepositoryProvider).toInt();
-    var db = ref.watch(firebaseDbProvider);
 
-    DocumentReference doc = db
+    DocumentReference doc = _db
         .collection(Collection.accounts.name)
-        .doc(userId)
+        .doc(_userId)
         .collection(Collection.user_accounts.name)
         .doc(_selectedAccount!.id);
 
@@ -52,13 +74,11 @@ class DepositService extends ChangeNotifier {
 
   Future<bool> performWithdrawal() {
     Completer<bool> withdrawCompleter = Completer();
-    var userId = ref.watch(firebaseAuthInstance).currentUser!.uid;
     var amountToWithDraw = ref.read(withdrawRepositoryProvider).toInt();
-    var db = ref.watch(firebaseDbProvider);
 
-    DocumentReference doc = db
+    DocumentReference doc = _db
         .collection(Collection.accounts.name)
-        .doc(userId)
+        .doc(_userId)
         .collection(Collection.user_accounts.name)
         .doc(_selectedAccount!.id);
     doc.update({'balance': _selectedAccount!.balance! - amountToWithDraw}).then(
@@ -72,12 +92,10 @@ class DepositService extends ChangeNotifier {
   }
 
   Stream<List<Expense>> getExpenses() {
-    var userId = ref.watch(firebaseAuthInstance).currentUser!.uid;
     var controller = StreamController<List<Expense>>();
-    var db = ref.watch(firebaseDbProvider);
-    db
+    _db
         .collection(Collection.accounts.name)
-        .doc(userId)
+        .doc(_userId)
         .collection(Collection.user_expenses.name)
         .snapshots() //stream of user_expense collection
         .listen((QuerySnapshot collection) {
@@ -90,17 +108,18 @@ class DepositService extends ChangeNotifier {
         ));
       }
       controller.add(expenses);
+    }).onError((error, stackTrace) {
+      throw error;
     }); //Listen on the stream
 
     return controller.stream;
   }
 
-  void addExpense(Expense expense) {
-    var userId = ref.watch(firebaseAuthInstance).currentUser!.uid;
-    var db = ref.watch(firebaseDbProvider);
-    CollectionReference expenseCollection = db
+  Future<bool> addExpense(Expense expense) {
+    Completer<bool> addExpenseComplete = Completer();
+    CollectionReference expenseCollection = _db
         .collection(Collection.accounts.name)
-        .doc(userId)
+        .doc(_userId)
         .collection(Collection.user_expenses.name);
 
     expenseCollection.add({
@@ -108,23 +127,30 @@ class DepositService extends ChangeNotifier {
       'timeStamp': expense.timeStamp,
       'name': expense.name
     }).then((value) {
-      print({'document added': value});
-    }).catchError((error) => print(error.toString()));
+      // print({'document added': value});
+      addExpenseComplete.complete(true);
+    }).catchError((error) {
+      // print(error.toString());
+      addExpenseComplete.completeError(error.toString());
+    });
+    return addExpenseComplete.future;
   }
 
-  void deleteExpense(String expenseId) {
-    var userId = ref.watch(firebaseAuthInstance).currentUser!.uid;
-    var db = ref.watch(firebaseDbProvider);
-
-    DocumentReference expenseToDelete = db
+  Future<bool> deleteExpense(String expenseId) {
+    Completer<bool> deleteExpenseCompleter = Completer();
+    DocumentReference expenseToDelete = _db
         .collection(Collection.accounts.name)
-        .doc(userId)
+        .doc(_userId)
         .collection(Collection.user_expenses.name)
         .doc(expenseId);
 
-    expenseToDelete
-        .delete()
-        .then((value) => print('Document deleted'))
-        .catchError((error) => print(error.toString()));
+    expenseToDelete.delete().then((value) {
+      /*print('Document deleted')*/
+      deleteExpenseCompleter.complete(true);
+    }).catchError((error) {
+      // print(error.toString());
+      deleteExpenseCompleter.completeError(error.toString());
+    });
+    return deleteExpenseCompleter.future;
   }
 }

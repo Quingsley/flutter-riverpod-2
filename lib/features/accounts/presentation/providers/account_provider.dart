@@ -1,7 +1,7 @@
-import 'package:bank_app/features/landing/data/repositories/account.repository.dart';
-import 'package:bank_app/features/landing/data/repositories/database_provider.dart';
-import 'package:bank_app/features/landing/data/repositories/iaccount_repository.dart';
-import 'package:bank_app/features/landing/presentation/viewmodels/account_viewmodel.dart';
+import 'package:bank_app/features/accounts/data/repositories/account.repository.dart';
+import 'package:bank_app/features/accounts/data/repositories/database_provider.dart';
+import 'package:bank_app/features/accounts/data/repositories/iaccount_repository.dart';
+import 'package:bank_app/features/accounts/presentation/viewmodels/account_viewmodel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final accountDatabaseProvider =

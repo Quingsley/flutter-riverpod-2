@@ -1,5 +1,4 @@
 import 'package:bank_app/features/accounts/data/models/account_model.dart';
-import 'package:bank_app/features/accounts/presentation/providers/account_provider.dart';
 import 'package:bank_app/features/auth/presenatation/widgets/text_input.dart';
 import 'package:bank_app/features/tabs/providers/tabs_provider.dart';
 import 'package:bank_app/shared/widgets/action_header.dart';
@@ -32,14 +31,14 @@ class _CreateBankAccountContainerState
     accountTypeFocusNode.dispose();
   }
 
-  void _showSnackBar(BuildContext context, String message) {
+  void _showSnackBar(BuildContext context, String message, [Color? color]) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        backgroundColor: Theme.of(context).colorScheme.errorContainer,
+        backgroundColor: color ?? Theme.of(context).colorScheme.errorContainer,
         content: Text(
           message,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.onErrorContainer,
+            color: Theme.of(context).colorScheme.onBackground,
           ),
         ),
       ),
@@ -52,7 +51,7 @@ class _CreateBankAccountContainerState
     var selectedAccount = ref.watch(accountsStateProvider);
     var selectedIndex = ref.watch(accountCurrentIndexProvider);
     var newAccountVM = ref.watch(newAccountVMProvider);
-    var updateAccounts = ref.watch(accountRepositoryProvider);
+
     return Container(
       height: size.height * .5,
       width: size.height * .8,
@@ -139,14 +138,19 @@ class _CreateBankAccountContainerState
                               type: selectedAccount[selectedIndex],
                               accountNumber: accountNumber.value.text));
                       if (isAccountCreated) {
-                        updateAccounts.getAccountData();
                         if (context.mounted) {
                           Navigator.of(context).pop();
+                          _showSnackBar(
+                            context,
+                            'Pull to Refresh the see the changes',
+                            Colors.green[400],
+                          );
                         }
                       } else {
                         if (context.mounted) {
                           _showSnackBar(context,
-                              'Unable To Create Account , Please Try Again');
+                              'Unable To Create Account , Can only have Either Checking or Savings Account');
+                          Navigator.of(context).pop();
                         }
                       }
                     } else {

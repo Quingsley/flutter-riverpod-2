@@ -7,6 +7,7 @@ import 'package:bank_app/shared/widgets/loading_spinner.dart';
 import 'package:bank_app/shared/widgets/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 class AccountsPage extends ConsumerWidget {
   const AccountsPage({super.key});
@@ -14,7 +15,7 @@ class AccountsPage extends ConsumerWidget {
   static const String route = '/home';
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var accountVM = ref.watch(userAccountFutureListProvider);
+    var accountAsyncValue = ref.watch(userAccountFutureListProvider);
     return Scaffold(
       drawer: const Drawer(
         child: FlutterBankDrawer(),
@@ -47,7 +48,7 @@ class AccountsPage extends ConsumerWidget {
               height: 20,
             ),
             Expanded(
-              child: accountVM.when(
+              child: accountAsyncValue.when(
                 data: (data) {
                   List<Account> accounts = data;
                   if (accounts.isEmpty) {
@@ -74,12 +75,25 @@ class AccountsPage extends ConsumerWidget {
                       ),
                     );
                   }
-                  return ListView.builder(
-                      itemCount: accounts.length,
-                      itemBuilder: (context, index) {
-                        var acct = accounts[index];
-                        return AccountCard(account: acct);
-                      });
+                  return LiquidPullToRefresh(
+                    onRefresh: () {
+                      accountAsyncValue =
+                          ref.refresh(userAccountFutureListProvider);
+                      return Future.value();
+                    },
+                    height: 100,
+                    color: Theme.of(context).colorScheme.primary,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.inversePrimary,
+                    animSpeedFactor: 2,
+                    showChildOpacityTransition: true,
+                    child: ListView.builder(
+                        itemCount: accounts.length,
+                        itemBuilder: (context, index) {
+                          var acct = accounts[index];
+                          return AccountCard(account: acct);
+                        }),
+                  );
                 },
                 error: (error, stackTrace) =>
                     ErrorContainer(message: error.toString()),

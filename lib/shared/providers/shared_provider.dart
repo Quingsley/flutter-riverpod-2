@@ -1,5 +1,5 @@
 import 'package:bank_app/shared/repositories/auth_repository.dart';
-import 'package:bank_app/shared/repositories/bank_repository.dart';
+import 'package:bank_app/services/bank_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

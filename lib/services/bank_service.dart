@@ -34,21 +34,26 @@ class BankService extends ChangeNotifier {
 
   Account? get accountSelected => _selectedAccount;
 
-  Future<bool> createAccount(Account data) {
+  Future<bool> createAccount(Account data) async {
     Completer<bool> newAccountCompleter = Completer();
     CollectionReference userAccounts = _db
         .collection(Collection.accounts.name)
         .doc(_userId)
         .collection(Collection.user_accounts.name);
-    userAccounts.add({
-      'account_number': data.accountNumber,
-      'balance': 0.0,
-      'type': data.type
-    }).then((value) {
-      newAccountCompleter.complete(true);
-    }).catchError((error, stackTrace) {
-      newAccountCompleter.completeError(error.toString());
-    });
+    final querySnapshot = await userAccounts.get();
+    if (querySnapshot.docs.length < 2) {
+      userAccounts.add({
+        'account_number': data.accountNumber,
+        'balance': 0.0,
+        'type': data.type
+      }).then((value) {
+        newAccountCompleter.complete(true);
+      }).catchError((error, stackTrace) {
+        newAccountCompleter.completeError(error.toString());
+      });
+    } else {
+      newAccountCompleter.complete(false);
+    }
 
     return newAccountCompleter.future;
   }

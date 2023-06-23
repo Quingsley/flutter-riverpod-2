@@ -8,4 +8,7 @@ class Utils {
   }
 }
 
+//FIXME:
 enum Collection { accounts, user_accounts, user_expenses }
+
+enum StackRouteNames { accounts, withdraw, deposit, expenses }

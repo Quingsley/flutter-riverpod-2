@@ -3,7 +3,6 @@ import 'package:bank_app/features/deposit/data/models/deposit_model.dart';
 import 'package:bank_app/features/deposit/presentation/providers/deposit_provider.dart';
 import 'package:bank_app/features/deposit/presentation/widgets/account_action_selection.dart';
 import 'package:bank_app/features/deposit/presentation/widgets/account_deposit_slider.dart';
-import 'package:bank_app/features/transaction/presentation/pages/transaction_complete_page.dart';
 import 'package:bank_app/shared/widgets/action_header.dart';
 import 'package:bank_app/shared/widgets/custom_app_bar.dart';
 import 'package:bank_app/shared/widgets/navigation_drawer.dart';
@@ -12,7 +11,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class DepositScreen extends ConsumerWidget {
-  const DepositScreen({super.key});
+  const DepositScreen({required this.transactionPath, super.key});
+  final String transactionPath;
 
   static const String route = '/deposit';
 
@@ -66,8 +66,7 @@ class DepositScreen extends ConsumerWidget {
                         DepositModel(amount: amount),
                       ),
                   onTap: () {
-                    GoRouter.of(context)
-                        .go(TransactionCompletePage.route, extra: true);
+                    GoRouter.of(context).push(transactionPath, extra: true);
                   },
                 )
               ],

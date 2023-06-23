@@ -29,10 +29,9 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
     emailController.dispose();
   }
 
-//TODO: FIX STATE
-  bool validateEmail() {
-    return emailController.value.text.isNotEmpty &&
-        Utils.validateEmail(emailController.value.text);
+  bool validateEmail(String email) {
+    bool isValid = Utils.validateEmail(email) && email.isNotEmpty;
+    return isValid;
   }
 
   @override
@@ -46,13 +45,40 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
         }
       }
     });
-    bool validateEmail() {
-      return emailController.value.text.isNotEmpty &&
-          Utils.validateEmail(emailController.value.text);
+    void submitHandler() {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Password Reset'),
+          content: const Text(
+              'On clicking Ok an email will be sent to the provide email with a link to reset your password.'),
+          actions: [
+            TextButton(
+              onPressed: () async {
+                ref.read(isLoadingStateProvider.notifier).state = true;
+                bool isEmailSent = await authVM
+                    .forgotPasswordHandler(emailController.value.text);
+                ref.read(isLoadingStateProvider.notifier).state = false;
+                emailController.clear();
+                if (context.mounted) {
+                  if (isEmailSent) {
+                    GoRouter.of(context).pop();
+                  }
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Text('OK'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('CANCEL'),
+            ),
+          ],
+        ),
+      );
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       appBar: const CustomAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
@@ -83,6 +109,11 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                         authVM.clearErrorMessage();
                       }
                     },
+                    onSubmitted: (val) {
+                      if (validateEmail(val)) {
+                        submitHandler();
+                      }
+                    },
                     hintText: 'Email',
                   ),
                   if (authVM.errorMessage.isNotEmpty)
@@ -97,44 +128,9 @@ class _ForgetPasswordScreenState extends ConsumerState<ForgetPasswordScreen> {
                       : FlutterBankMainButton(
                           label: 'Reset Password',
                           icon: Icons.mail,
-                          enabled: validateEmail(),
+                          enabled: validateEmail(emailController.text),
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (_) => AlertDialog(
-                                title: const Text('Password Reset'),
-                                content: const Text(
-                                    'On clicking Ok an email will be sent to the provide email with a link to reset your password.'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () async {
-                                      ref
-                                          .read(isLoadingStateProvider.notifier)
-                                          .state = true;
-                                      bool isEmailSent =
-                                          await authVM.forgotPasswordHandler(
-                                              emailController.value.text);
-                                      ref
-                                          .read(isLoadingStateProvider.notifier)
-                                          .state = false;
-                                      emailController.clear();
-                                      if (context.mounted) {
-                                        if (isEmailSent) {
-                                          GoRouter.of(context).pop();
-                                        }
-                                        Navigator.of(context).pop();
-                                      }
-                                    },
-                                    child: const Text('OK'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
-                                    child: const Text('CANCEL'),
-                                  ),
-                                ],
-                              ),
-                            );
+                            submitHandler();
                           },
                         ),
                 ],

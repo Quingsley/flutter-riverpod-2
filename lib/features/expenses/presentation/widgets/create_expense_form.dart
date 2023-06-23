@@ -65,13 +65,8 @@ class _ExpenseFormContainerState extends ConsumerState<ExpenseFormContainer> {
     return Container(
       height: 400,
       padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.inversePrimary,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(50),
-          topRight: Radius.circular(50),
-        ),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -1,7 +1,6 @@
 import 'package:bank_app/features/auth/presenatation/widgets/flutter_bank_main_button.dart';
 import 'package:bank_app/features/deposit/presentation/widgets/account_action_selection.dart';
 import 'package:bank_app/features/deposit/presentation/widgets/account_deposit_slider.dart';
-import 'package:bank_app/features/transaction/presentation/pages/transaction_complete_page.dart';
 import 'package:bank_app/features/withdraw/presentation/providers/withdraw_provider.dart';
 import 'package:bank_app/shared/providers/shared_provider.dart';
 import 'package:bank_app/shared/widgets/action_header.dart';
@@ -12,7 +11,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class WithdrawScreen extends ConsumerWidget {
-  const WithdrawScreen({super.key});
+  const WithdrawScreen({required this.transactionPath, super.key});
+
+  final String transactionPath;
 
   static const String route = '/withdraw';
 
@@ -59,8 +60,10 @@ class WithdrawScreen extends ConsumerWidget {
             FlutterBankMainButton(
               label: 'Make Withdrawal',
               onTap: () {
-                GoRouter.of(context)
-                    .go(TransactionCompletePage.route, extra: false);
+                //TODO: FIX
+                StatefulNavigationShell.of(context)
+                    .context
+                    .push(transactionPath, extra: false);
               },
               enabled: ref
                   .read(withdrawRepositoryProvider.notifier)

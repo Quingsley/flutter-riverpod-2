@@ -1,8 +1,7 @@
 import 'package:bank_app/features/deposit/presentation/providers/deposit_provider.dart';
-import 'package:bank_app/features/accounts/presentation/pages/accounts_page.dart';
 import 'package:bank_app/features/transaction/presentation/widgets/transaction_complete_widget.dart';
 import 'package:bank_app/features/withdraw/presentation/providers/withdraw_provider.dart';
-import 'package:bank_app/routes/app_routes.dart';
+import 'package:bank_app/helpers/utils.dart';
 import 'package:bank_app/shared/providers/shared_provider.dart';
 import 'package:bank_app/shared/widgets/custom_app_bar.dart';
 import 'package:bank_app/shared/widgets/error_widget.dart';
@@ -15,7 +14,7 @@ class TransactionCompletePage extends ConsumerWidget {
   const TransactionCompletePage({super.key, required this.isDeposit});
 
   final bool isDeposit;
-  static const String route = '/transaction-complete';
+  static const String route = 'transaction-complete';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,21 +26,21 @@ class TransactionCompletePage extends ConsumerWidget {
     isDeposit
         ? depositTransactionAsync.whenData((data) {
             if (data) {
-              Future.delayed(const Duration(seconds: 3), () {
+              Future.delayed(const Duration(seconds: 2), () {
                 depositVM.resetDepositAmount();
                 bankService.resetAccountSelection();
-                GoRouter.of(AppRoutes.mainNav.currentContext!)
-                    .go(AccountsPage.route);
+                StatefulNavigationShell.of(context)
+                    .goBranch(StackRouteNames.accounts.index);
               });
             }
           })
         : withdrawTransactionAsync.whenData((data) {
             if (data) {
-              Future.delayed(const Duration(seconds: 3), () {
+              Future.delayed(const Duration(seconds: 2), () {
                 withdrawVM.resetWithDrawAmount();
                 bankService.resetAccountSelection();
-                GoRouter.of(AppRoutes.mainNav.currentContext!)
-                    .go(AccountsPage.route);
+                StatefulNavigationShell.of(context)
+                    .goBranch(StackRouteNames.withdraw.index);
               });
             }
           });

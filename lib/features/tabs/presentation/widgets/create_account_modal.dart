@@ -53,9 +53,9 @@ class _CreateBankAccountContainerState
     var newAccountVM = ref.watch(newAccountVMProvider);
 
     return Container(
-      height: size.height * .5,
-      width: size.height * .8,
-      padding: const EdgeInsets.all(20),
+      height: size.height * .45,
+      width: size.width,
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.inversePrimary,
         borderRadius: BorderRadius.circular(20),

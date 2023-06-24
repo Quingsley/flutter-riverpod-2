@@ -66,7 +66,7 @@ class DepositScreen extends ConsumerWidget {
                         DepositModel(amount: amount),
                       ),
                   onTap: () {
-                    GoRouter.of(context).push(transactionPath, extra: true);
+                    GoRouter.of(context).go(transactionPath, extra: true);
                   },
                 )
               ],

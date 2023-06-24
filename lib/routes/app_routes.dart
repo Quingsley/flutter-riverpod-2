@@ -16,7 +16,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class AppRoutes {
   static final GlobalKey<NavigatorState> mainNav =
       GlobalKey(debugLabel: 'mainNav');
-  // static GlobalKey<NavigatorState> tabNav = GlobalKey();
   static final GlobalKey<NavigatorState> _shellNavigatorAccountsKey =
       GlobalKey<NavigatorState>(debugLabel: 'accounts');
   static final GlobalKey<NavigatorState> _shellNavigatorWithdrawKey =

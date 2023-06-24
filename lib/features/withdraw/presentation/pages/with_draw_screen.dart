@@ -60,10 +60,7 @@ class WithdrawScreen extends ConsumerWidget {
             FlutterBankMainButton(
               label: 'Make Withdrawal',
               onTap: () {
-                //TODO: FIX
-                StatefulNavigationShell.of(context)
-                    .context
-                    .push(transactionPath, extra: false);
+                GoRouter.of(context).go(transactionPath, extra: false);
               },
               enabled: ref
                   .read(withdrawRepositoryProvider.notifier)

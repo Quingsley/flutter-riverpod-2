@@ -7,7 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class Home extends ConsumerWidget {
-  const Home({required this.navigationShell, super.key});
+  const Home({required this.navigationShell, Key? key})
+      : super(key: key ?? const ValueKey<String>('ScaffoldWithNavBar'));
   final StatefulNavigationShell navigationShell;
   static const String route = '/home';
 
